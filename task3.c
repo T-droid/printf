@@ -25,7 +25,7 @@ void printXoxu(const char *format, va_list args)
 					break;
 				case 'x':
 					num = (unsigned int)va_arg(args, int);
-					print_hexa(num, 'x', specifier);
+					print_hexa(num, 'x', &specifier);
 					break;
 				case 'o':
 					num = (unsigned int)va_arg(args, int);
