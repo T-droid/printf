@@ -6,7 +6,7 @@
  * @args: the argument list
  * Return: void
  */
-void printinteger(const char *format, va_list args)
+void integers(const char *format, va_list args)
 {
 	int i, d;
 
@@ -18,19 +18,52 @@ void printinteger(const char *format, va_list args)
 			format++;
 			switch (*format)
 			{
-				case 'd' :
+				case 'd':
 					d = va_arg(args, int);
-					write(1, &d, sizeof(int));
+					print_integer(d);
 					break;
-				case 'i' :
+				case 'i':
 					i = va_arg(args, int);
-					write(1, &i, sizeof(int));
+					print_integer(i);
 					break;
-				default :
+				default:
 					break;
 			}
 		}
 		format++;
 	}
 	va_end(args);
+}
+
+
+/**
+ * print_integer - prints integers using putchar
+ * @i: integer to be printed
+ */
+void print_integer(int i)
+{
+	if (i < 0)
+	{
+		_putchar('-');
+		i = -i;
+	}
+
+	if (i == 0)
+	{
+		_putchar('0');
+		return;
+	}
+	print_digits(i);
+}
+
+/**
+ * print_digits - prints number digits recursively using putchar
+ * @num: number whose digits are to be printed
+ */
+void print_digits(int num)
+{
+	if (num == 0)
+		return;
+	print_digits(num / 10);
+	_putchar('0' (num % 10));
 }
