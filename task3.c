@@ -17,6 +17,8 @@ void printXoxu(const char *format, va_list args)
 		if (*format == '%')
 		{
 			format++;
+			if (*format == '+' || *format == '#' || *format == ' ')
+				print_flag(*format, *(++format))
 			switch (*format)
 			{
 				case 'X':

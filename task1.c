@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 /**
- * printinteger - prints interger values
+ * integers - prints interger values
  * @format: the conversion specifier
  * @args: the argument list
  * Return: void
@@ -17,6 +17,8 @@ void integers(const char *format, va_list args)
 		if (*format == '%')
 		{
 			format++;
+			if (*format == '+' || *format == '#' || *format == ' ')
+				print_flag(*format, *(++format))
 			switch (*format)
 			{
 				case 'd':
