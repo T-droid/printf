@@ -1,5 +1,6 @@
 #include "main.h"
-
+#include <stdio.h>
+#include <stdarg.h>
 /**
  * printinteger - prints interger values
  * @format: the conversion specifier
@@ -18,19 +19,20 @@ void printinteger(const char *format, va_list args)
 			format++;
 			switch (*format)
 			{
-				case 'd' :
+				case 'd':
 					d = va_arg(args, int);
 					write(1, &d, sizeof(int));
 					break;
-				case 'i' :
+				case 'i':
 					i = va_arg(args, int);
 					write(1, &i, sizeof(int));
 					break;
-				default :
+				default:
 					break;
 			}
 		}
 		format++;
 	}
 	va_end(args);
+
 }

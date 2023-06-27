@@ -10,10 +10,10 @@
 
 int _printf(const char *format, ...)
 {
-	va_list lists;
+	va_list args;
+	int count = 0;
 
-	va_start(lists, format);
-	int i = 0;
+	va_start(args, format);
 
 	while (*format)
 	{
@@ -22,39 +22,39 @@ int _printf(const char *format, ...)
 			format++;
 			if (*format == 'c')
 			{
-				putchar(va_arg(lists, int));
-				i++;
+				putchar(va_arg(args, int));
+				count++;
 			}
 			else if (*format == 's')
 			{
-				char *s = va_arg(lists, char *);
+				char *s = va_arg(args, char *);
 
 				while (*s)
 				{
 					putchar(*s);
 					s++;
-					i++;
+					count++;
 				}
 			}
 			else if (*format == '%')
 			{
 				putchar('%');
-				i++;
+				count++;
 			}
 			else
 			{
 				putchar('%');
 				putchar(*format);
-				i += 2;
+				count += 2;
 			}
 		}
 		else
 		{
 			putchar(*format);
-				i++;
+				count++;
 		}
 		format++;
 	}
-	va_end(lists);
-	return (i);
+	va_end(args);
+	return (count);
 }
