@@ -10,6 +10,7 @@
 void printXoxu(const char *format, va_list args)
 {
 	unsigned int num;
+	int len;
 
 	va_start(args, format);
 	while (*format)
@@ -18,23 +19,45 @@ void printXoxu(const char *format, va_list args)
 		{
 			format++;
 			if (*format == '+' || *format == '#' || *format == ' ')
-				print_flag(*format, *(++format))
+				print_flag(*format, *(++format));
+			else if (*format == 'l' || *format == 'h')
+				len = lengths(*format);
 			switch (*format)
 			{
 				case 'X':
-					num = (unsigned int)va_arg(args, int);
+					if (len == 1)
+						num = (unsigned long)va_arg(args, int);
+					else if (len == -1)
+						num = (unsigned short)va_arg(args, int);
+					else
+						num = (unsigned int)va_arg(args, int);
 					print_hexa(num, 'X', specifier);
 					break;
 				case 'x':
-					num = (unsigned int)va_arg(args, int);
+					if (len == 1)
+						num = (unsigned long)va_arg(args, int);
+					else if (len == -1)
+						num = (unsigned short)va_arg(args, int);
+					else
+						num = (unsigned int)va_arg(args, int);
 					print_hexa(num, 'x', &specifier);
 					break;
 				case 'o':
-					num = (unsigned int)va_arg(args, int);
+					if (len == 1)
+						num = (unsigned long)va_arg(args, int);
+					else if (len == -1)
+						num = (unsigned short)va_arg(args, int);
+					else
+						num = (unsigned int)va_arg(args, int);
 					print_octal(num);
 					break;
 				case 'u':
-					num = (unsigned int)va_arg(args, int);
+					if (len == 1)
+						num = (unsigned long)va_arg(args, int)
+					else if (len == -1)
+						num = (unsigned short)va_arg(args, int);
+					else
+						num = (unsigned int)va_arg(args, int);
 					print_integer(num);
 					break;
 				default:
