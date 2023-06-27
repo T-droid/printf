@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include <stdarg.h>
 /**
- * printinteger - prints interger values
+ * integers - prints interger values
  * @format: the conversion specifier
  * @args: the argument list
  * Return: void
  */
 void integers(const char *format, va_list args)
 {
-	int i, d;
+	int i, d, len;
 
 	va_start(args, format);
 	while (*format)
@@ -17,14 +17,28 @@ void integers(const char *format, va_list args)
 		if (*format == '%')
 		{
 			format++;
+			if (*format == '+' || *format == '#' || *format == ' ')
+				print_flag(*format, *(++format));
+			else if (*format == 'h' || *format == 'l')
+				len = lengths(*format);
 			switch (*format)
 			{
 				case 'd':
-					d = va_arg(args, int);
+					if (len == 1)
+						d = va_arg(args, long);
+					else if (len == -1)
+						d = va_arg(args, short);
+					else
+						d = va_arg(args, int);
 					print_integer(d);
 					break;
 				case 'i':
-					i = va_arg(args, int);
+					if (len == 1)
+						i = va_arg(args, long);
+					else if (len == -1)
+						i = va_arg(args, short);
+					else
+						i = va_arg(args, int);
 					print_integer(i);
 					break;
 				default:
