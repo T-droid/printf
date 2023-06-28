@@ -22,7 +22,7 @@ int _printf(const char *format, ...)
 			format++;
 			if (*format == 'c')
 			{
-				putchar(va_arg(args, int));
+				_putchar(va_arg(args, int));
 				count++;
 			}
 			else if (*format == 's')
@@ -31,26 +31,26 @@ int _printf(const char *format, ...)
 
 				while (*s)
 				{
-					putchar(*s);
+					_putchar(*s);
 					s++;
 					count++;
 				}
 			}
 			else if (*format == '%')
 			{
-				putchar('%');
+				_putchar('%');
 				count++;
 			}
 			else
 			{
-				putchar('%');
-				putchar(*format);
+				_putchar('%');
+				_putchar(*format);
 				count += 2;
 			}
 		}
 		else
 		{
-			putchar(*format);
+			_putchar(*format);
 				count++;
 		}
 		format++;

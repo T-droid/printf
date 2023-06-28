@@ -5,6 +5,6 @@
 #include <stdlib.h>
 
 int _printf(const char *format, ...);
-void print_binary(unsigned int num);
+int _putchar(char c);
 
 #endif /* MAIN_H */
