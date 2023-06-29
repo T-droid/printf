@@ -7,32 +7,22 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-void convert_to_binary(const char *format, ...)
+void convert_to_binary(unsigned int num)
 {
-	va_list args;
-	int count = 0;
-	int  b;
+    int bits = sizeof(num) * 8;
+    char binary[bits + 1];
+    int i;
 
+    binary[bits] = '\0';
 
-	va_start(args, format);
-	(*format == 'b');
-	{
-		unsigned int num = va_arg(args, unsigned int);
-		int bits = sizeof(num) * 8;
-		char binary[bits + 1];
+    i = bits - 1;
+    while (i >= 0)
+    {
+        binary[i] = (num & 1) ? '1' : '0';
+        num >>= 1;
+        i--;
+    }
 
-		binary[bits] = '\0';
-
-		while (int i = bits - 1; i >= 0)
-		{
-			binary[i] = (num & 1) ? '1' : '0';
-			num >>= 1;
-		}i--
-		printf("%s", binary);
-		count++;
-	}
-	format++;
-
-va_end(args);
-return (count);
+    printf("%s", binary);
 }
+

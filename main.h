@@ -6,5 +6,5 @@
 
 int _printf(const char *format, ...);
 int _putchar(char c);
-
+void convert_to_binary(unsigned int num);
 #endif /* MAIN_H */
