@@ -7,6 +7,7 @@
 
 int _printf(const char *format, ...);
 int _putchar(char c);
+
 int lengths(char c);
 void precision(const char *format, va_list args);
 void print_flag(char a, char b);
@@ -18,5 +19,8 @@ int print_octal(int num);
 int print_hexa(int num, char a, char (*f)(char a));
 char specifier(char a);
 void print_string(const char *format, va_list args);
+
+
+void convert_to_binary(unsigned int num);
 
 #endif /* MAIN_H */
