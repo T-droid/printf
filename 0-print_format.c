@@ -10,10 +10,12 @@
 
 int _printf(const char *format, ...)
 {
-	va_list args;
+	va_list args, args2;
 	int count = 0;
+	
 
 	va_start(args, format);
+	va_copy(args2, args);
 
 	while (*format)
 	{
@@ -40,6 +42,13 @@ int _printf(const char *format, ...)
 			{
 				_putchar('%');
 				count++;
+			}
+			else if (*format == 'd' || *format == 'i')
+				count += integers(*format, args);
+
+			else if (*format == 'u' || *format == 'o' || *format == 'x' || *format == 'X')
+			{
+				count += printXoxu(*format, args2);
 			}
 			else
 			{

@@ -7,47 +7,23 @@
  * @args: the argument list
  * Return: void
  */
-void integers(const char *format, va_list args)
+int integers(char format, va_list args)
 {
-	int i, d, len;
-
-	va_start(args, format);
-	while (*format)
+	int d, i, count = 0;
+	switch(format)
 	{
-		if (*format == '%')
-		{
-			format++;
-			if (*format == '+' || *format == '#' || *format == ' ')
-				print_flag(*format, *(++format));
-			else if (*format == 'h' || *format == 'l')
-				len = lengths(*format);
-			switch (*format)
-			{
-				case 'd':
-					if (len == 1)
-						d = va_arg(args, long);
-					else if (len == -1)
-						d = va_arg(args, short);
-					else
-						d = va_arg(args, int);
-					print_integer(d);
-					break;
-				case 'i':
-					if (len == 1)
-						i = va_arg(args, long);
-					else if (len == -1)
-						i = va_arg(args, short);
-					else
-						i = va_arg(args, int);
-					print_integer(i);
-					break;
-				default:
-					break;
-			}
-		}
-		format++;
+		case 'd':
+			d = va_arg(args, int);
+			count += print_integer(d);
+			break;
+		case 'i':
+			i = va_arg(args, unsigned int);
+			count += print_integer(i);
+			break;
+		default:
+			break;
 	}
-	va_end(args);
+	return (count);
 
 }
 
@@ -56,30 +32,39 @@ void integers(const char *format, va_list args)
  * print_integer - prints integers using putchar
  * @i: integer to be printed
  */
-void print_integer(int i)
+int print_integer(int i)
 {
+	int count = 0;
+
 	if (i < 0)
 	{
 		_putchar('-');
+		count++;
 		i = -i;
 	}
 
 	if (i == 0)
 	{
 		_putchar('0');
-		return;
+		count++;
+		return (count);
 	}
-	print_digits(i);
+	count += print_digits(i);
+	return (count);
 }
 
 /**
  * print_digits - prints number digits recursively using putchar
  * @num: number whose digits are to be printed
  */
-void print_digits(int num)
+int print_digits(int num)
 {
+	int count = 0;
+
 	if (num == 0)
-		return;
+		return (count);
 	print_digits(num / 10);
-	_putchar('0' (num % 10));
+	_putchar('0' + (num % 10));
+	count++;
+	return (count);
 }

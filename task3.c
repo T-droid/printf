@@ -7,79 +7,57 @@
  * @args: copy of the va_list
  * Return: void
  */
-void printXoxu(const char *format, va_list args)
+int printXoxu(char format, va_list args)
 {
 	unsigned int num;
-	int len;
+	int count = 0;
 
-	va_start(args, format);
-	while (*format)
+	switch(format)
 	{
-		if (*format == '%')
-		{
-			format++;
-			if (*format == '+' || *format == '#' || *format == ' ')
-				print_flag(*format, *(++format));
-			else if (*format == 'l' || *format == 'h')
-				len = lengths(*format);
-			switch (*format)
-			{
-				case 'X':
-					if (len == 1)
-						num = (unsigned long)va_arg(args, int);
-					else if (len == -1)
-						num = (unsigned short)va_arg(args, int);
-					else
-						num = (unsigned int)va_arg(args, int);
-					print_hexa(num, 'X', specifier);
-					break;
-				case 'x':
-					if (len == 1)
-						num = (unsigned long)va_arg(args, int);
-					else if (len == -1)
-						num = (unsigned short)va_arg(args, int);
-					else
-						num = (unsigned int)va_arg(args, int);
-					print_hexa(num, 'x', &specifier);
-					break;
-				case 'o':
-					if (len == 1)
-						num = (unsigned long)va_arg(args, int);
-					else if (len == -1)
-						num = (unsigned short)va_arg(args, int);
-					else
-						num = (unsigned int)va_arg(args, int);
-					print_octal(num);
-					break;
-				case 'u':
-					if (len == 1)
-						num = (unsigned long)va_arg(args, int)
-					else if (len == -1)
-						num = (unsigned short)va_arg(args, int);
-					else
-						num = (unsigned int)va_arg(args, int);
-					print_integer(num);
-					break;
-				default:
-					break;
-			}
-		}
-		format++;
+		case 'u':
+			num = (unsigned int)va_arg(args, unsigned int);
+			count += print_integer(num);
+			break;
+		case 'o':
+			num = va_arg(args, unsigned int);
+			printf("%d\n", num);
+			count += print_octal(num);
+			break;
+		case 'x':
+			num = va_arg(args, unsigned int);
+			count += print_hexa(num, 'x', specifier);
+			break;
+		case 'X':
+			num = va_arg(args, unsigned int);
+			count += print_hexa(num, 'X', specifier);
+			break;
+		default :
+			break;
 	}
-	va_end(args);
+	return (count);
 }
 
 /**
  * print_octal - prints an octal number
  * @num: number to be printed in octal
  */
-void print_octal(int num)
+int print_octal(int num)
 {
 	char oct[MAX];
 	int i = 0, rem;
+	int count = 0;
+
+	if (num < 0)
+	{
+		_putchar('-');
+		num *= -1;
+	}
 
 	if (num == 0)
+	{
 		_putchar('0');
+		count++;
+	}
 	while (num > 0)
 	{
 		rem = num % 8;
@@ -91,9 +69,10 @@ void print_octal(int num)
 	while (i >= 0)
 	{
 		_putchar(oct[i]);
+		count++;
 		i--;
 	}
-	_putchar('\n');
+	return (count);
 }
 
 /**
@@ -102,17 +81,19 @@ void print_octal(int num)
  * @a: format
  * @f: function to determine the format of the number
  */
-void print_hexa(int num, char a, char (*f)(char a))
+int print_hexa(int num, char a, char (*f)(char a))
 {
 	char hex[MAX], ch;
-	int i = 0, rem;
+	int i = 0, rem, count = 0;
 
-	_putchar('0');
-	_putchar('x');
+	if (num < 0)
+		num *= -1;
 	if (num == 0)
 	{
 		_putchar('0');
+		count++;
 		_putchar('0');
+		count++;
 	}
 
 	ch = f(a);
@@ -123,7 +104,12 @@ void print_hexa(int num, char a, char (*f)(char a))
 		if (rem < 10)
 			hex[i] = rem + '0';
 		else
-			hex[i] = rem - 10 + ch;
+		{
+			if (ch == 'A')
+				hex[i] = rem - 10 + 'A';
+			else
+				hex[i] = rem - 10 + 'a';
+		}
 		num = num / 16;
 		i++;
 	}
@@ -131,9 +117,11 @@ void print_hexa(int num, char a, char (*f)(char a))
 	while (i >= 0)
 	{
 		_putchar(hex[i]);
+		count++;
 		i--;
 	}
 	_putchar('\n');
+	return (count);
 }
 
 /**
@@ -145,6 +133,5 @@ char specifier(char a)
 {
 	if (a == 'X')
 		return ('A');
-	else if (a == 'x')
-		return ('a');
+	return ('a');
 }
